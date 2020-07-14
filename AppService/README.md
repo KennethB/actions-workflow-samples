@@ -18,20 +18,29 @@ Also use [`Azure/appservice-settings`](https://github.com/Azure/appservice-setti
 * To build and deploy a containerized app, use [docker-login](https://github.com/Azure/docker-login) to log in to a private container registry such as [Azure Container registry](https://azure.microsoft.com/en-us/services/container-registry/). 
 Once login is done, the next set of Actions in the workflow can perform tasks such as building, tagging and pushing containers. 
   
-## Deploy a webapp using GitHub Actions
+## Choose a sample workflow template
 
-### Get code
+### Get started using a sample app
 
-If you already have an app in GitHub that you want to deploy, you can create a workflow for that code. If you are a new user, choose from the below table, a sample code repo based on **runtime** and fork in GitHub.
+If you are a new user, to simplify the onboarding experience with deploying web applications, we’ve included **sample code** repositories in the below table which can help you get started in four easy steps:
 
-### Create Azure Web App 
-Provision a web app by following the tutorial [Azure Web Apps Quickstart](https://docs.microsoft.com/en-us/azure/app-service/overview#next-steps)
+1. Fork the sample repository (example, [Node sample](https://github.com/Azure-Samples/node_express_app)).
+2. Click on **Deploy to Azure** in the readme file within the repo which redirects to Azure portal to create a new Web App for Node.
+3. Configure the required GitHub Repo [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
+4. Update the workflow YAML file already present inside the folder: `.github/workflows/`, with the Web App configuration and commit the changes.
 
-### Choose a sample workflow template
-1. Pick a template from the below table depending on your Azure web app **runtime** and place the template to `.github/workflows/` in your project repository.
-2. Change `app-name` to your Web app name.
-3. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
- 
+These steps will trigger a new CI/CD workflow in **Actions** tab that builds and deploys the app to Azure using GitHub Actions.
+
+### Get started with your app
+
+If you already have an app in GitHub that you want to deploy, you can create a workflow for that code using the following steps:
+
+1. Provision a web app in Azue portal or by following the tutorial [Azure Web Apps Quickstart](https://docs.microsoft.com/en-us/azure/app-service/overview#next-steps)
+2. Choose a workflow **template** from the below table based on **runtime** of your app and copy the contents.
+3. Create a new **workflow.yml** file  with the template contents under the path: `.github/workflows/` in your code repository.
+4. Configure the required GitHub Repo [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
+5. Update the workflow YAML file present inside the folder: `.github/workflows/`, with the Web App configuration and commit the changes to trigger a new workflow.
+
 
 |  Runtime | Template |Sample Code|
 |------------|---------|---------|
@@ -71,7 +80,7 @@ jobs:
         npm run test --if-present
        
     - name: 'Run Azure webapp deploy action using publish profile credentials'
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v2
       with: 
         app-name: node-rn
         publish-profile: ${{ secrets.azureWebAppPublishProfile }}
@@ -81,7 +90,7 @@ jobs:
 
 #### Configure deployment credentials:
 
-For any credentials like Azure Service Principal, Publish Profile etc add them as [secrets](https://developer.github.com/actions/managing-workflows/storing-secrets/) in the GitHub repository and then use them in the workflow.
+For any credentials like Azure Service Principal, Publish Profile etc add them as [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) in the GitHub repository and then use them in the workflow.
 
 The above example uses app-level credentials i.e., publish profile file for deployment. 
 
@@ -138,7 +147,7 @@ jobs:
 
 #### Configure deployment credentials:
 
-For any credentials like Azure Service Principal, Publish Profile etc add them as [secrets](https://help.github.com/en/articles/virtual-environments-for-github-actions#creating-and-using-secrets-encrypted-variables) in the GitHub repository and then use them in the workflow.
+For any credentials like Azure Service Principal, Publish Profile etc add them as [secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) in the GitHub repository and then use them in the workflow.
 
 The above example uses user-level credentials i.e., Azure Service Principal for deployment. 
 
